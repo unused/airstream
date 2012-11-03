@@ -1,0 +1,147 @@
+#!/usr/bin/env ruby
+
+PROGRAM_VERSION = "0.1.0"
+
+require 'optparse'
+require 'airplay'
+require 'ruby-progressbar'
+require 'digest'
+require 'fileutils'
+require 'yaml'
+
+options = {
+  reciever: '192.168.1.8',
+  quiet: false,
+  verbose: false,
+  use_local_http: false,
+  http_path: '/var/www/html/airstream/',
+  http_url: 'http://192.168.1.2/airstream/'
+}
+
+CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
+
+if File.exists? CONFIG_FILE
+  options_config = YAML.load_file(CONFIG_FILE)
+  options.merge!(options_config)
+else
+  File.open(CONFIG_FILE,'w') { |file| YAML::dump(options,file) }
+  STDERR.puts "Initialized configuration file in #{CONFIG_FILE}"
+end
+
+option_parser = OptionParser.new do |opts|
+  executable_name = File.basename($PROGRAM_NAME)
+  opts.banner = "offer a video file to an airplay device
+
+Usage: #{executable_name} [options] [url|path/]filename
+
+Basic options: (configure default in ~/.airstreamrc)
+"
+
+  opts.on("-o RECIEVER",
+   "the airplay-device ip-address or domain") do |reciever|
+    options[:reciever] = reciever
+  end
+
+  opts.on("-q","--quiet",
+   "prevent most of the output") do |quiet|
+    options[:quiet] = quiet
+  end
+
+  opts.on("--verbose",
+   "additional output") do |verbose|
+    options[:verbose] = verbose
+  end
+
+  opts.on("--enable-use-httpd",
+   "use httpd to offer local files") do |use_httpd|
+    options[:use_local_httpd] = true
+  end
+
+  opts.on("-u HTTP_URL",
+   "the local webserver url") do |http_url|
+    options[:http_url] = http_url
+  end
+
+  opts.on("-p HTTP_PATH",
+   "the local webserver directory path") do |path|
+    options[:http_path] = path
+  end
+
+  opts.on("-v", "--version",
+   "output version information then quit") do |path|
+    puts "airstream v" + PROGRAM_VERSION
+    exit 0
+  end
+end
+
+if ARGV.empty?
+  STDERR.puts "No arguments given"
+  STDERR.puts option_parser
+  exit 1
+end
+
+begin
+  option_parser.parse!
+
+  if options[:quiet]
+    # def puts(msg) #   # psssst
+    # end
+    # def print(msg)
+    #   # psssst
+    # end
+  end
+
+  unless options[:reciever]
+    STDERR.puts "No host given"
+    exit 68
+  end
+
+  node = Airplay::Server::Node.new(options[:reciever],
+           options[:reciever], options[:reciever], 7000)
+  ap = Airplay::Client.new node
+  ap.use node # does not work without that second assign
+
+  ARGV.each do |file|
+    if File.exists?(file) && options[:use_local_httpd]
+      # raise ArgumentError unless options[:use_local_httpd]
+      # raise ArgumentError unless options[:http_path]
+      # raise ArgumentError unless options[:http_url]
+      filename = Digest::MD5.hexdigest(File.basename(file, '.mp4')) + ".mp4"
+
+      puts "generated hash-filename for local webserver: #{filename}" if options[:verbose]
+
+      unless File.exists?(options[:http_path] + filename)
+        FileUtils.cp(file, options[:http_path] + filename)
+        puts "copied file to #{options[:http_path]}#{filename}" if options[:verbose]
+      end
+      puts "sending local file #{filename}"
+      ap.send_video options[:http_url] + filename
+    else
+      puts "sending remote file #{filename}"
+      ap.send_video file
+    end
+    print "loading"
+    while ap.scrub['position'] == 0
+      # do not wait a second to make user believie it is
+      # loading much faster... psychology is a bitch
+      sleep 0.8
+      print "."
+    end
+
+    pbar_options = {
+      title: File.basename(file, '.mp4'),
+      total: ap.scrub['duration'],
+      format: '%t %a |%b>>%i| %p%%'
+    }
+    pbar = ProgressBar.create(pbar_options)
+    while ap.scrub['position'] < ap.scrub['duration']
+      pbar.progress = ap.scrub['position']
+      sleep 1.0
+    end
+    pbar.finish
+  end
+rescue OptionParser::InvalidArgument => ex
+  STDERR.puts ex.message
+  STDERR.puts option_parser
+end
+

@@ -1,0 +1,17 @@
+GEM
+  specs:
+    airplay (0.2.9)
+      dnssd (~> 2.0)
+      net-http-digest_auth (~> 1.2)
+      net-http-persistent (>= 2.6)
+    dnssd (2.0)
+    net-http-digest_auth (1.2.1)
+    net-http-persistent (2.8)
+    ruby-progressbar (1.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  airplay
+  ruby-progressbar
