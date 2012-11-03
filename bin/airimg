@@ -1,2 +1,74 @@
 #!/usr/bin/env ruby
 
+PROGRAM_VERSION = "0.1.1" # @TODO move to one place
+
+require 'optparse'
+require 'airplay'
+require 'yaml'
+
+options = {
+  reciever: '192.168.1.8',
+  interval: 3
+}
+
+CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
+
+if File.exists? CONFIG_FILE
+  options_config = YAML.load_file(CONFIG_FILE)
+  options.merge!(options_config)
+end
+
+option_parser = OptionParser.new do |opts|
+  executable_name = File.basename($PROGRAM_NAME)
+  opts.banner = "offer a image file to an airplay device
+
+Usage: #{executable_name} [options] [url|path/]filename
+
+Basic options: (configure default in ~/.airstreamrc)
+"
+  opts.on("-o RECIEVER",
+   "the airplay-device ip-address or domain") do |reciever|
+    options[:reciever] = reciever
+  end
+
+  opts.on("-n SECONDS", "--interval SECONDS",
+   "seconds between switching image files") do |interval|
+    options[:interval] = interval.to_i
+  end
+
+  opts.on("-v", "--version",
+   "output version information then quit") do |path|
+    puts "airstream airimg v" + PROGRAM_VERSION
+    exit 0
+  end
+end
+
+if ARGV.empty?
+  STDERR.puts "No arguments given"
+  STDERR.puts option_parser
+  exit 1
+end
+
+begin
+  option_parser.parse!
+
+  unless options[:reciever]
+    STDERR.puts "No host given"
+    exit 68
+  end
+
+  node = Airplay::Server::Node.new(options[:reciever],
+           options[:reciever], options[:reciever], 7000)
+  ap = Airplay::Client.new node
+  ap.use node # does not work without that second assign
+
+  ARGV.each do |file|
+    ap.send_image file
+    sleep options[:interval]
+  end
+
+rescue OptionParser::InvalidArgument => ex
+  STDERR.puts ex.message
+  STDERR.puts option_parser
+end
+
