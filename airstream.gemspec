@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.authors = ["Christoph Lipautz"]
   s.email = ["christoph at lipautz.org"]
-  s.homepage = "http://www.lipautz.org/"
+  s.homepage = "https://github.com/unused/airstream"
   s.summary = %q{A command line tool for streaming to airplay-devices}
   s.description = %q{airstream allows to stream video and image files to
                      airplay-devices, a webserver is needed for local video
