@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-PROGRAM_VERSION = "0.1.1" # @TODO move to one place
+PROGRAM_VERSION = "0.2.1"
 
 require 'optparse'
 require 'airplay'

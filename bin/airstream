@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-PROGRAM_VERSION = "0.1.0"
+PROGRAM_VERSION = "0.2.1"
 
 require 'optparse'
 require 'airplay'
@@ -83,14 +83,6 @@ end
 begin
   option_parser.parse!
 
-  if options[:quiet]
-    # def puts(msg) #   # psssst
-    # end
-    # def print(msg)
-    #   # psssst
-    # end
-  end
-
   unless options[:reciever]
     STDERR.puts "No host given"
     exit 68
@@ -114,18 +106,18 @@ begin
         FileUtils.cp(file, options[:http_path] + filename)
         puts "copied file to #{options[:http_path]}#{filename}" if options[:verbose]
       end
-      puts "sending local file #{filename}"
+      puts "sending local file #{filename}" unless options[:quiet]
       ap.send_video options[:http_url] + filename
     else
-      puts "sending remote file #{filename}"
+      puts "sending remote file #{filename}" unless options[:quiet]
       ap.send_video file
     end
-    print "loading"
+    print "loading" unless options[:quiet]
     while ap.scrub['position'] == 0
       # do not wait a second to make user believie it is
       # loading much faster... psychology is a bitch
       sleep 0.8
-      print "."
+      print "." unless options[:quiet]
     end
 
     pbar_options = {

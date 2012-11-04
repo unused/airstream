@@ -54,6 +54,19 @@ Now airstream will generate a hash of your filename and place the file in the
 webservers path specified. The copies of your video files will remain in the
 webserver, for now it is up to you to clean on demand.
 
+## History
+
+- v0.2.1
+  - Fix missing dependencies
+
+- v0.2.0
+  - Added sending images to airplay-device
+
+- v0.1.0
+  - Initial Release
+  - Support playing remote files on airplay-device
+  - Support playing local files via local webserver
+
 ## Thanks
 
 Thanks to Bruno Aguirre (https://github.com/elcuervo) for rubys airplay gem and
