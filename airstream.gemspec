@@ -12,7 +12,13 @@ Gem::Specification.new do |s|
   s.description = %q{A command line tool to stream video and image files to
                      airplay-devices, a webserver is needed for local video
                      files.}
-  s.files = ["bin/airstream", "bin/airimg"]
+  s.files = %w(
+bin/airstream
+bin/airimg
+lib/airstream.rb
+lib/airstream/server.rb
+)
+  s.require_paths << 'lib'
   s.executables = ["airstream", "airimg"]
   s.add_dependency('airplay')
   s.add_dependency('ruby-progressbar')

@@ -18,18 +18,18 @@ module Airstream
 
     def video=(video_file)
       video_duration = nil
-      if File.exists?(file) && local_httpd_allowed?
-        filename = Digest::MD5.hexdigest(File.basename(file, '.mp4')) + ".mp4"
+      if File.exists?(video_file) && local_httpd_allowed?
+        filename = Digest::MD5.hexdigest(File.basename(video_file, '.mp4')) + ".mp4"
         unless File.exists?(http_path + filename)
-          FileUtils.cp(file, http_path + filename)
+          FileUtils.cp(video_file, http_path + filename)
         end
         @device.send_video http_url + filename
       else
-        @device.send_video file
+        @device.send_video video_file
       end
     end
 
-    def allow_local_httpd(is_allowed)
+    def allow_local_httpd=(is_allowed)
       @local_httpd_allowed = is_allowed
     end
 
@@ -46,7 +46,7 @@ module Airstream
     end
 
     def video_duration
-      @video_duration = @video_duration || @device.scub['duration']
+      @video_duration = @video_duration || @device.scrub['duration']
     end
 
   end

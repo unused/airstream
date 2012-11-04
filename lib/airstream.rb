@@ -10,3 +10,5 @@ module Airstream
   VERSION = '0.2.3'
   DEFAULT_PORT = 7000
 end
+
+require 'airstream/server.rb'

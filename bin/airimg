@@ -53,13 +53,17 @@ begin
     exit 68
   end
 
-  server = Airstream::Server(options[:reciever])
+  server = Airstream::Server.new(options[:reciever])
 
   ARGV.each do |file|
     server.image = file
     sleep options[:interval]
   end
 
+rescue Interrupt
+  STDERR.puts
+  STDERR.puts "exiting"
+  exit 0
 rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser

@@ -98,10 +98,9 @@ begin
 
     server.video = file
 
-    print "loading" unless options[:quiet]
-    while server.loading?
-      sleep 0.8
-      print "." unless options[:quiet]
+    "|/-\\".chars.cycle.each do |c|
+      print c; sleep(0.2); print "\b"
+      break unless server.loading?
     end
 
     pbar_options = {
@@ -111,11 +110,15 @@ begin
     }
     pbar = ProgressBar.create(pbar_options)
     while server.video_position < server.video_duration
-      pbar.progress = server.position
+      pbar.progress = server.video_position
       sleep 1.0
     end
     pbar.finish
   end
+rescue Interrupt
+  STDERR.puts
+  STDERR.puts "exiting"
+  exit 0
 rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser
