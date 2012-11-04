@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 
-PROGRAM_VERSION = "0.2.1"
-
-require 'optparse'
-require 'airplay'
-require 'yaml'
+require 'airstream'
 
 options = {
   reciever: '192.168.1.8',
@@ -38,7 +34,7 @@ Basic options: (configure default in ~/.airstreamrc)
 
   opts.on("-v", "--version",
    "output version information then quit") do |path|
-    puts "airstream airimg v" + PROGRAM_VERSION
+    puts "airstream airimg v" + Airstream::VERSION
     exit 0
   end
 end
@@ -57,13 +53,10 @@ begin
     exit 68
   end
 
-  node = Airplay::Server::Node.new(options[:reciever],
-           options[:reciever], options[:reciever], 7000)
-  ap = Airplay::Client.new node
-  ap.use node # does not work without that second assign
+  server = Airstream::Server(options[:reciever])
 
   ARGV.each do |file|
-    ap.send_image file
+    server.image = file
     sleep options[:interval]
   end
 

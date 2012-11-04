@@ -56,7 +56,10 @@ webserver, for now it is up to you to clean on demand.
 
 ## History
 
-- v0.2.1
+- v0.3.0
+  - Added structure to sourcecode
+
+- v0.2.2
   - Fix missing dependencies
 
 - v0.2.0

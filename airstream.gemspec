@@ -1,6 +1,9 @@
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
+require 'airstream'
+
 Gem::Specification.new do |s|
   s.name = "airstream"
-  s.version = "0.2.2"
+  s.version = Airstream::VERSION
   s.platform = Gem::Platform::RUBY
   s.authors = ["Christoph Lipautz"]
   s.email = ["christoph at lipautz.org"]
