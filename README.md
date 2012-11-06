@@ -11,10 +11,13 @@ Local Images can be sent directly to an aiplay-device.
 
 ## Basic Usage
 
-Use the output argument to specify the ip-adress of the remote device.
+Use the output argument to specify the ip-adress of the remote device. Remote
+files will be played directly, local files are hosted with a small webserver
+(webrick). Check your firewall settings, port 7001 is used to host the file.
 
 ```shell
 airstream http://example.com/sample.mp4 -o 192.168.1.8
+airstream /home/me/sample.mp4 -o 192.168.1.8
 ```
 
 ```shell
@@ -28,33 +31,11 @@ use the configuration file initial generated in ~/.airstreamrc.
 airimg ~/Pictures/photo.png airimg http://example.com/photo.png -o 192.168.1.8
 ```
 
-## Advanced Usage
-
-Install any kind of webserver, like apache and start. Most likely you don't
-want to add all the parameters every time you send a file to the device. First
-time using the tool, a configuration file will be generated in ~/.airstreamrc.
-
-```shell
-airstream
-Initialized configuration file in /home/me/.airstreamrc
-```
-
-Set the local webserver informations in the configuration and you are ready to
-play local files.
-
-```
----
-:reciever: 192.168.1.8
-:use_local_httpd: true
-:http_path: /var/www/html/airstream/
-:http_url: http://192.168.1.2/airstream/
-```
-
-Now airstream will generate a hash of your filename and place the file in the
-webservers path specified. The copies of your video files will remain in the
-webserver, for now it is up to you to clean on demand.
 
 ## History
+
+- v0.3.0
+  - Hosting local file directly using webrick
 
 - v0.2.3
   - Added structure to sourcecode

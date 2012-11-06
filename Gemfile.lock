@@ -7,6 +7,7 @@ GEM
     dnssd (2.0)
     net-http-digest_auth (1.2.1)
     net-http-persistent (2.8)
+    rack (1.4.1)
     ruby-progressbar (1.0.2)
 
 PLATFORMS
@@ -14,4 +15,5 @@ PLATFORMS
 
 DEPENDENCIES
   airplay
+  rack
   ruby-progressbar

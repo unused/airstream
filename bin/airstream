@@ -68,7 +68,7 @@ Basic options: (configure default in ~/.airstreamrc)
 
   opts.on("-v", "--version",
    "output version information then quit") do |path|
-    puts "airstream v" + Airplay::VERSION
+    puts "airstream v" + Airstream::VERSION
     exit 0
   end
 end

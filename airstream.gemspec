@@ -16,6 +16,9 @@ Gem::Specification.new do |s|
 bin/airstream
 bin/airimg
 lib/airstream.rb
+lib/airstream/version.rb
+lib/airstream/network.rb
+lib/airstream/video.rb
 lib/airstream/server.rb
 )
   s.require_paths << 'lib'
