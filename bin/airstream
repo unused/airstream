@@ -6,9 +6,7 @@ options = {
   reciever: '192.168.1.8',
   quiet: false,
   verbose: false,
-  use_local_http: false,
-  http_path: '/var/www/html/airstream/',
-  http_url: 'http://192.168.1.2/airstream/'
+  use_local_http: true
 }
 
 CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
@@ -45,25 +43,9 @@ Basic options: (configure default in ~/.airstreamrc)
     options[:verbose] = verbose
   end
 
-  opts.on("--enable-use-httpd",
-   "use httpd to offer local files") do |use_httpd|
-    options[:use_local_httpd] = true
-  end
-
-  opts.on("-u HTTP_URL",
-   "the local webserver url") do |http_url|
-    options[:http_url] = http_url
-  end
-
-  opts.on("-p HTTP_PATH",
-   "the local webserver directory path") do |path|
-    options[:http_path] = path
-  end
-
-  # opts.on("--cleanup",
-  #  "remove the local webserver files and exit") do |path|
-  #   FileUtils.rm(Dir.glob(options[:http_path] + '/*'))
-  #   exit 0
+  # opts.on("--enable-use-httpd",
+  #  "use httpd to offer local files") do |use_httpd|
+  #   options[:use_local_httpd] = true
   # end
 
   opts.on("-v", "--version",

@@ -18,7 +18,7 @@ module Airstream
       @@server = Rack::Server.new(
         :server => :webrick,
         :Host => Airstream::Network.get_local_ip,
-        :Port => 7071,
+        :Port => 7001,
         :app => Rack::File.new(file),
         :AccessLog => [], # stfu webrick
         :Logger => WEBrick::Log::new("/dev/null", 7)
