@@ -3,11 +3,11 @@
 A command line tool for sending videos and images to airplay-compatible devices
 (like AppleTV).
 
-The airplay protocol can basically play videos in mpeg-4 format that are
-accessible via http. Thus for sending a local file you will have to
-use a local webserver, see below.
+The airplay protocol can basically play videos in mpeg-4 (mp4, mov, ts, m4v)
+format that are accessible via http. Thus for sending a local file a webserver
+will be created, see below.
 
-Local Images can be sent directly to an aiplay-device.
+Local images can be sent directly to an aiplay-device.
 
 ## Basic Usage
 

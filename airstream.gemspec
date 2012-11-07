@@ -10,8 +10,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/unused/airstream"
   s.summary = %q{A command line tool for streaming to airplay-devices}
   s.description = %q{A command line tool to stream video and image files to
-                     airplay-devices, a webserver is needed for local video
-                     files.}
+                     airplay-devices.}
   s.files = %w(
 bin/airstream
 bin/airimg
