@@ -33,6 +33,9 @@ use the configuration file initial generated in ~/.airstreamrc.
 
 ## History
 
+- v0.3.2
+  - Fixing GEM missing file
+
 - v0.3.1
   - Minor Fixes
   - Changing format of progress bar
