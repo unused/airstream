@@ -1,15 +1,11 @@
 
 module Airstream
-  class Server < Airplay::Client
-    attr_accessor :http_path, :http_url, :video_duration
+  class Server
 
     @local_httpd_allowed = false
 
     def initialize(reciever)
-      node = Airplay::Server::Node.new(
-        reciever, reciever, reciever, Airstream::DEFAULT_PORT)
-      @device = Airplay::Client.new(node)
-      @device.use(node) # does not work without that second assign
+      @device = Airstream::Node.new reciever
     end
 
     def image=(image_file)
@@ -17,7 +13,7 @@ module Airstream
     end
 
     def video=(video_file)
-      video_duration = nil
+      @video_duration = nil
       video = Video.new(video_file)
       @device.send_video(video.url)
     end

@@ -62,6 +62,7 @@ if ARGV.empty?
 end
 
 begin
+
   option_parser.parse!
 
   unless options[:reciever]
@@ -71,32 +72,46 @@ begin
 
   server = Airstream::Server.new(options[:reciever])
 
+  puts "=> Ctrl-C to exit airstream"
   ARGV.each do |file|
-    server.allow_local_httpd = options[:use_local_httpd]
-    if server.local_httpd_allowed?
-      server.http_path = options[:http_path]
-      server.http_url  = options[:http_url]
-    end
 
+    server.allow_local_httpd = options[:use_local_httpd]
+    puts "sending video file #{file}" if options[:verbose]
     server.video = file
 
+    print "loading " unless options[:quiet]
     "|/-\\".chars.cycle.each do |c|
-      print c; sleep(0.2); print "\b"
+      print c unless options[:quiet]
+      sleep(0.2)
+      print "\b" unless options[:quiet]
       break unless server.loading?
     end
+    puts "done" unless options[:quiet]
 
+    video_title = File.basename(file, '.mp4')
     pbar_options = {
-      title: File.basename(file, '.mp4'),
+      title: video_title,
       total: server.video_duration,
-      format: '%t %a |%b>>%i| %p%%'
+      format: '%t |%b%i| %p%%'
     }
     pbar = ProgressBar.create(pbar_options)
-    while server.video_position < server.video_duration
-      pbar.progress = server.video_position
+    while (elapsed_time=server.video_position) < server.video_duration
+      pbar.progress = elapsed_time
+      formatted_time = Time.at(elapsed_time).gmtime.strftime('%R:%S')
+      pbar.title = "#{video_title} #{formatted_time}"
       sleep 1.0
     end
     pbar.finish
   end
+
+rescue Airplay::Protocol::InvalidMediaError
+  STDERR.puts
+  STDERR.puts "invalid media file"
+  exit 0
+rescue NoMethodError # @FIX webrick raises no method error
+  STDERR.puts
+  STDERR.puts "file host shutdown"
+  exit 0
 rescue Interrupt
   STDERR.puts
   STDERR.puts "exiting"

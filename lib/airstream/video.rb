@@ -1,13 +1,16 @@
+
 require 'rack'
 require 'webrick'
 
 module Airstream
   class Video
+
     @@server = nil
     attr_reader :url
+
     def initialize(video_file)
       if File.exists? video_file
-        @@server.stop if @@server
+        @@server.server.shutdown if @@server
         @url = host_file(video_file)
       else
         @url = video_file
@@ -18,7 +21,7 @@ module Airstream
       @@server = Rack::Server.new(
         :server => :webrick,
         :Host => Airstream::Network.get_local_ip,
-        :Port => 7001,
+        :Port => AIRSTREAM_PORT,
         :app => Rack::File.new(file),
         :AccessLog => [], # stfu webrick
         :Logger => WEBrick::Log::new("/dev/null", 7)
