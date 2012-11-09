@@ -25,5 +25,7 @@ lib/airstream/server.rb
   s.executables = ["airstream", "airimg"]
   s.add_dependency('airplay')
   s.add_dependency('ruby-progressbar')
+  s.add_dependency('rack')
+  s.add_dependency('webrick')
   s.add_development_dependency('rake')
 end

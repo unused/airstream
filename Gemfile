@@ -1,5 +1,8 @@
+source "https://rubygems.org"
 
-gem 'rack'
 gem 'airplay'
 gem 'ruby-progressbar'
+
+gem 'rack'
+gem 'webrick'
 

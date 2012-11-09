@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     airplay (0.2.9)
       dnssd (~> 2.0)
@@ -9,6 +10,7 @@ GEM
     net-http-persistent (2.8)
     rack (1.4.1)
     ruby-progressbar (1.0.2)
+    webrick (1.3.1)
 
 PLATFORMS
   ruby
@@ -17,3 +19,4 @@ DEPENDENCIES
   airplay
   rack
   ruby-progressbar
+  webrick
