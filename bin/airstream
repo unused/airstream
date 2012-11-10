@@ -70,23 +70,24 @@ begin
     exit 68
   end
 
+  io = Airstream::Io.new
+  io.quiet = options[:quiet]
+  io.verbose = options[:verbose]
   server = Airstream::Server.new(options[:reciever])
 
   puts "=> Ctrl-C to exit airstream"
   ARGV.each do |file|
 
     server.allow_local_httpd = options[:use_local_httpd]
-    puts "sending video file #{file}" if options[:verbose]
+    io.info "sending video file #{file}"
     server.video = file
 
-    print "loading " unless options[:quiet]
-    "|/-\\".chars.cycle.each do |c|
-      print c unless options[:quiet]
-      sleep(0.2)
-      print "\b" unless options[:quiet]
-      break unless server.loading?
+    io.print "loading"
+    while server.loading?
+      io.print "."
+      sleep(0.7)
     end
-    puts "done" unless options[:quiet]
+    io.puts " done"
 
     video_title = File.basename(file, '.mp4')
     pbar_options = {

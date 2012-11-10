@@ -11,6 +11,7 @@ module Airstream
 end
 
 require 'airstream/version.rb'
+require 'airstream/io.rb'
 require 'airstream/network.rb'
 require 'airstream/node.rb'
 require 'airstream/video.rb'

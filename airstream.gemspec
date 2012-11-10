@@ -16,6 +16,7 @@ bin/airstream
 bin/airimg
 lib/airstream.rb
 lib/airstream/version.rb
+lib/airstream/io.rb
 lib/airstream/network.rb
 lib/airstream/node.rb
 lib/airstream/video.rb
