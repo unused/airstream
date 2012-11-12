@@ -40,9 +40,18 @@ airimg ~/Pictures/*.png -n 8
 See the help for further command line options. To specify default options
 use the configuration file initial generated in ~/.airstreamrc.
 
+## Controls
+
+airstream only while playing a video file:
+```
+q ... quit
+s ... skip to next file
+```
 
 ## History
 
+- v0.3.4
+  - Added basic input controls
 - v0.3.3
   - Extended Readme
   - Dependency fixes
