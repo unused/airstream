@@ -75,7 +75,7 @@ begin
   io.verbose = options[:verbose]
   server = Airstream::Server.new(options[:reciever])
 
-  puts "=> Ctrl-C to exit airstream"
+  puts "=> press [q] to exit airstream"
   ARGV.each do |file|
 
     server.allow_local_httpd = options[:use_local_httpd]
