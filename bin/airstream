@@ -2,6 +2,12 @@
 
 require 'airstream'
 
+def self.exit(status)
+  puts "\n" # clear output
+  Airstream::Io.show_input
+  super status
+end
+
 options = {
   reciever: '192.168.1.8',
   quiet: false,
@@ -10,6 +16,9 @@ options = {
 }
 
 CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
+EXIT_OK = 0
+EXIT_ERROR = 1
+EXIT_NO_HOST = 68
 
 if File.exists? CONFIG_FILE
   options_config = YAML.load_file(CONFIG_FILE)
@@ -51,14 +60,14 @@ Basic options: (configure default in ~/.airstreamrc)
   opts.on("-v", "--version",
    "output version information then quit") do |path|
     puts "airstream v" + Airstream::VERSION
-    exit 0
+    exit EXIT_OK
   end
 end
 
 if ARGV.empty?
   STDERR.puts "No arguments given"
   STDERR.puts option_parser
-  exit 1
+  exit EXIT_ERROR
 end
 
 begin
@@ -67,7 +76,7 @@ begin
 
   unless options[:reciever]
     STDERR.puts "No host given"
-    exit 68
+    exit EXIT_NO_HOST
   end
 
   io = Airstream::Io.new
@@ -75,7 +84,7 @@ begin
   io.verbose = options[:verbose]
   server = Airstream::Server.new(options[:reciever])
 
-  puts "=> press [q] to exit airstream"
+  io.puts "=> press [q] to exit airstream"
   ARGV.each do |file|
 
     server.allow_local_httpd = options[:use_local_httpd]
@@ -83,8 +92,11 @@ begin
     server.video = file
 
     io.print "loading"
+    Airstream::Io.hide_input
     while server.loading?
+      io.catch_input
       io.print "."
+      exit EXIT_OK if io.quit?
       sleep(0.7)
     end
     io.puts " done"
@@ -114,15 +126,15 @@ begin
 rescue Airplay::Protocol::InvalidMediaError
   STDERR.puts
   STDERR.puts "invalid media file"
-  exit 0
+  exit EXIT_OK
 rescue NoMethodError # @FIX webrick raises no method error
   STDERR.puts
   STDERR.puts "file host shutdown"
-  exit 0
+  exit EXIT_OK
 rescue Interrupt
   STDERR.puts
   STDERR.puts "exiting"
-  exit 0
+  exit EXIT_OK
 rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser

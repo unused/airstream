@@ -18,11 +18,11 @@ module Airstream
       STDOUT.puts msg if @verbose
     end
 
-    def hide_input
+    def self.hide_input
       `stty raw -echo`
     end
 
-    def show_input
+    def self.show_input
       `stty -raw echo`
     end
 
