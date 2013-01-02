@@ -45,11 +45,18 @@ use the configuration file initial generated in ~/.airstreamrc.
 airstream only while playing a video file:
 ```
 q ... quit
-s ... skip to next file
+> ... skip to next file
+< ... skip to prev file
+. ... +30 seconds
+, ... -30 seconds
+space ... pause/resume
 ```
 
 ## History
 
+- v0.3.6
+  - Refactored structure
+  - More input controls
 - v0.3.4
   - Added basic input controls
 - v0.3.3

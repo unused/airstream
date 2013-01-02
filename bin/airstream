@@ -3,8 +3,8 @@
 require 'airstream'
 
 def self.exit(status)
-  puts "\n" # clear output
   Airstream::Io.show_input
+  puts "\n" # clear output
   super status
 end
 
@@ -16,9 +16,12 @@ options = {
 }
 
 CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
+
 EXIT_OK = 0
 EXIT_ERROR = 1
 EXIT_NO_HOST = 68
+
+UPDATE_TIMEOUT = 0.2
 
 if File.exists? CONFIG_FILE
   options_config = YAML.load_file(CONFIG_FILE)
@@ -69,6 +72,7 @@ if ARGV.empty?
   STDERR.puts option_parser
   exit EXIT_ERROR
 end
+playlist = ARGV
 
 begin
 
@@ -82,61 +86,33 @@ begin
   io = Airstream::Io.new
   io.quiet = options[:quiet]
   io.verbose = options[:verbose]
-  server = Airstream::Server.new(options[:reciever])
+  device = Airstream::Device.new(options[:reciever], playlist)
 
-  io.puts "=> press [q] to exit airstream"
-  ARGV.each do |file|
-
-    server.allow_local_httpd = options[:use_local_httpd]
-    io.info "sending video file #{file}"
-    server.video = file
-
-    io.print "loading"
-    Airstream::Io.hide_input
-    while server.loading?
-      io.catch_input
-      io.print "."
-      exit EXIT_OK if io.quit?
-      sleep(0.7)
-    end
-    io.puts " done"
-
-    video_title = File.basename(file, '.mp4')
-    pbar_options = {
-      title: video_title,
-      total: server.video_duration,
-      format: '%t |%b%i| %p%%'
-    }
-
-    io.hide_input
-    pbar = ProgressBar.create(pbar_options)
-    while (elapsed_time=server.video_position) < server.video_duration
-      io.catch_input
-      break if io.quit? || io.skip?
-      pbar.progress = elapsed_time
-      formatted_time = Time.at(elapsed_time).gmtime.strftime('%R:%S')
-      pbar.title = "#{video_title} #{formatted_time}"
-      sleep 0.5
-    end
-    io.show_input
-    pbar.finish
-    break if io.quit?
-  end
+  io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
+  Airstream::Io.hide_input
+  begin
+    sleep UPDATE_TIMEOUT
+    io.catch_input
+    device.update io
+  end until io.quit?
 
 rescue Airplay::Protocol::InvalidMediaError
   STDERR.puts
   STDERR.puts "invalid media file"
-  exit EXIT_OK
-rescue NoMethodError # @FIX webrick raises no method error
-  STDERR.puts
-  STDERR.puts "file host shutdown"
-  exit EXIT_OK
+  exit EXIT_ERROR
+# rescue NoMethodError # @FIX webrick raises no method error
+#   STDERR.puts
+#   STDERR.puts "file host shutdown"
+#   exit EXIT_OK
 rescue Interrupt
   STDERR.puts
   STDERR.puts "exiting"
-  exit EXIT_OK
+  exit EXIT_ERROR
 rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser
+  exit EXIT_ERROR
 end
+
+exit EXIT_OK
 

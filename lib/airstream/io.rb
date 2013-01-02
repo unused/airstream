@@ -3,6 +3,13 @@ require 'io/wait'
 
 module Airstream
   class Io
+    KEY_QUIT = 'q'
+    KEY_SKIP = '>'
+    KEY_PREV = '<'
+    KEY_FWD  = '.'
+    KEY_BACK = ','
+    KEY_PAUSE = ' '
+
     attr_writer :quiet, :verbose
     attr_reader :key
 
@@ -36,11 +43,27 @@ module Airstream
     end
 
     def quit?
-      @key == "q"
+      @key == KEY_QUIT
     end
 
     def skip?
-      @key == "s"
+      @key == KEY_SKIP
+    end
+
+    def prev?
+      @key == KEY_PREV
+    end
+
+    def fwd?
+      @key == KEY_FWD
+    end
+
+    def back?
+      @key == KEY_BACK
+    end
+
+    def pause?
+      @key == KEY_PAUSE
     end
   end
 end

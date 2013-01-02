@@ -53,12 +53,9 @@ begin
     exit 68
   end
 
-  server = Airstream::Server.new(options[:reciever])
+  device = Airstream::Device.new(options[:reciever], ARGV)
 
-  ARGV.each do |file|
-    server.image = file
-    sleep options[:interval]
-  end
+# @TODO
 
 rescue Interrupt
   STDERR.puts
