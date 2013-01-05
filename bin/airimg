@@ -2,10 +2,20 @@
 
 require 'airstream'
 
+def self.exit(status)
+  Airstream::Io.show_input
+  puts "\n" # clear output
+  super status
+end
+
 options = {
   reciever: '192.168.1.8',
   interval: 3
 }
+
+EXIT_OK = 0
+EXIT_ERROR = 1
+EXIT_NO_HOST = 68
 
 CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
 
@@ -53,16 +63,29 @@ begin
     exit 68
   end
 
-  device = Airstream::Device.new(options[:reciever], ARGV)
+  device = Airstream::Device.new(options[:reciever])
 
-# @TODO
+  io = Airstream::Io.new
+  io.quiet = options[:quiet]
+  io.verbose = options[:verbose]
+  io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
+  Airstream::Io.hide_input
+  ARGV.each do |file|
+    device.image = file
+    sleep options[:interval]
+    io.catch_input
+    break if io.quit?
+  end
+
 
 rescue Interrupt
   STDERR.puts
   STDERR.puts "exiting"
-  exit 0
+  exit EXIT_OK
 rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser
+  exit EXIT_ERROR
 end
 
+exit EXIT_OK

@@ -16,7 +16,7 @@ module Airstream
     @local_httpd_allowed = false
     @current_file_index
 
-    def initialize(reciever, files)
+    def initialize(reciever, files=[])
       @video_files = files
       @reciever = Airstream::Node.new reciever
       @current_file_index = 0
