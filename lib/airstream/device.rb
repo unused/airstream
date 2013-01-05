@@ -67,6 +67,10 @@ module Airstream
       end
     end
 
+    def finished?
+      !! (@current_file_index == @video_files.count-1) && (video_position == video_duration)
+    end
+
     def allow_local_httpd=(is_allowed)
       @local_httpd_allowed = is_allowed
     end

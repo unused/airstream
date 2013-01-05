@@ -94,7 +94,7 @@ begin
     sleep UPDATE_TIMEOUT
     io.catch_input
     device.update io
-  end until io.quit?
+  end until io.quit? || device.finished?
 
 rescue Airplay::Protocol::InvalidMediaError
   STDERR.puts
