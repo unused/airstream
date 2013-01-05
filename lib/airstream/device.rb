@@ -1,16 +1,7 @@
 
 module Airstream
-  # pbar = ProgressBar.create(pbar_options)
-  # while (elapsed_time=server.video_position) < server.video_duration
-  #   io.catch_input
-  #   break if io.quit? || io.skip?
-  #   pbar.progress = elapsed_time
-  #   formatted_time = Time.at(elapsed_time).gmtime.strftime('%R:%S')
-  #   pbar.title = "#{video_title} #{formatted_time}"
-  #   sleep 0.5
-  # end
-  # io.show_input
-  # pbar.finish
+
+  # TODO split device to device and player
   class Device
 
     @local_httpd_allowed = false
@@ -47,7 +38,7 @@ module Airstream
       @pbar.title = "#{@video_title} #{formatted_time}"
       if io.quit?
         Airstream::Io.show_input
-        exit # TODO skip to last fil, no exit
+        exit 0 # TODO skip to last file, no real exit
       elsif io.skip? || video_duration <= elapsed_time
         @current_file_index += 1
         self.video = @video_files[@current_file_index] if @video_files.count > @current_file_index

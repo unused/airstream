@@ -112,6 +112,8 @@ rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser
   exit EXIT_ERROR
+ensure
+  Airstream::Io.show_input
 end
 
 exit EXIT_OK

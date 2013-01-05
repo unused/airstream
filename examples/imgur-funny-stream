@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+puts "airstream example
+parses the imgur-funny rss feed and streams images
+to an airplay device.
+
+requires:
+gem feedzirra (https://github.com/pauldix/feedzirra)
+gem nokogiri (https://github.com/sparklemotion/nokogiri)
+
+note: this script will never stop ;)
+"
+
+require 'feedzirra'
+require 'nokogiri'
+
+SWITCH_TIMEOUT = 8
+
+feed = Feedzirra::Feed.fetch_and_parse("http://imgur.com/r/funny/rss")
+
+loop do
+  feed.entries.each do |entry|
+    img = Nokogiri::HTML.parse(entry.summary).css('img').first['src']
+    `airimg #{img} -n #{SWITCH_TIMEOUT}`
+  end
+  feed = Feedzirra::Feed.update(feed)
+end
+

@@ -54,6 +54,7 @@ space ... pause/resume
 
 ## History
 
+  - Added usage examples
 - v0.3.6
   - Refactored structure
   - More input controls
