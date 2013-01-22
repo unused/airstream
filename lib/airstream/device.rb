@@ -47,7 +47,7 @@ module Airstream
       @pbar.title = "#{@video_title} #{formatted_time}"
       if io.quit?
         Airstream::Io.show_input
-        exit # TODO skip to last fil, no exit
+        exit # TODO skip to last file, no exit
       elsif io.skip? || video_duration <= elapsed_time
         @current_file_index += 1
         self.video = @video_files[@current_file_index] if @video_files.count > @current_file_index
@@ -68,7 +68,8 @@ module Airstream
     end
 
     def finished?
-      !! (@current_file_index == @video_files.count-1) && (video_position == video_duration)
+      elapsed_time = video_position
+      !! (@current_file_index == @video_files.count-1) && (video_duration <= elapsed_time)
     end
 
     def allow_local_httpd=(is_allowed)

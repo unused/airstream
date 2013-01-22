@@ -54,6 +54,8 @@ space ... pause/resume
 
 ## History
 
+- v0.3.7
+  - Bugfix application does not quit after last file
 - v0.3.6
   - Refactored structure
   - More input controls
