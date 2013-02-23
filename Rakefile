@@ -8,5 +8,6 @@ end
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
+  require 'airstream'
   t.pattern = "test/*_test.rb"
 end

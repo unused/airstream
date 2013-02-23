@@ -54,26 +54,22 @@ space ... pause/resume
 
 ## History
 
+- v0.4.0
+  - Finally added tests
+  - Improved stability
+  - Major Bugfixes
+- v0.1.0 - v0.3.7
   - Added usage examples
-- v0.3.6
   - Refactored structure
   - More input controls
-- v0.3.4
   - Added basic input controls
-- v0.3.3
   - Extended Readme
   - Dependency fixes
-- v0.3.2
-  - Fixing GEM missing file
-  - Minor Fixes
   - Changing format of progress bar
-- v0.3.0
   - Hosting local file directly using webrick
-- v0.1.0 - v0.2.3
   - Play remote files
   - Play local video files with local webserver
   - Sending Images
-  - Bugfixes
 
 ## Thanks
 
