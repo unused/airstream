@@ -1,4 +1,5 @@
 
+require 'airstream'
 require 'minitest/autorun'
 
 class AirstreamNetwork < MiniTest::Unit::TestCase

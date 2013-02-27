@@ -37,7 +37,11 @@ module Airstream
         exit 0 # TODO skip to last file, no real exit
       elsif io.skip? || video_duration <= elapsed_time
         @current_file_index += 1
-        self.video = @video_files[@current_file_index] if @video_files.count > @current_file_index
+        if @current_file_index < @video_files.length
+          self.video = @video_files[@current_file_index] if @video_files.count > @current_file_index
+        else
+          @finished = true
+        end
       elsif io.prev?
         if @current_file_index == 0
           @reciever.scrub(0)
@@ -56,7 +60,6 @@ module Airstream
 
     def finished?
       @finished || true
-      !! (@current_file_index == @video_files.count-1) && (video_position == video_duration)
     end
 
     def allow_local_httpd=(is_allowed)
