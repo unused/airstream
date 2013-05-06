@@ -6,3 +6,7 @@ gem 'ruby-progressbar'
 gem 'rack'
 gem 'webrick'
 
+group :test do
+  gem 'rake'
+end
+
