@@ -9,20 +9,25 @@ module Airstream
     attr_reader :url
 
     def initialize(video_file)
+      @filename = video_file
       if File.exists? video_file
         @@server.server.shutdown if @@server
-        @url = host_file(video_file)
+        @url = host_file
       else
         @url = video_file
       end
     end
 
-    def host_file(file)
+    def to_s
+      File.basename(@filename, File.extname(@filename))
+    end
+
+    def host_file
       @@server = Rack::Server.new(
         :server => :webrick,
         :Host => Airstream::Network.get_local_ip,
         :Port => AIRSTREAM_PORT,
-        :app => Rack::File.new(file),
+        :app => Rack::File.new(@filename),
         :AccessLog => [], # stfu webrick
         :Logger => WEBrick::Log::new("/dev/null", 7)
       )

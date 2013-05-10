@@ -13,6 +13,7 @@ end
 group :test do
   gem 'rake'
   gem 'minitest'
+  gem 'simplecov', :require => false
 end
 
 group :test, :development do
