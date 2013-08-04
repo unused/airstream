@@ -23,6 +23,7 @@ module Airstream
     end
     private :current_file=
 
+    # TODO register commands instead of switch known
     def update(io)
       if io.quit?
         Airstream::Io.show_input ; @finished = true

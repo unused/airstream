@@ -25,6 +25,10 @@ module Airstream
       STDOUT.puts msg if @verbose
     end
 
+    def error(msg)
+      STDERR.puts msg
+    end
+
     def self.hide_input
       `stty raw -echo`
     end

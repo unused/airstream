@@ -25,5 +25,9 @@ module Airstream
       @player = @reciever.send_video video.url
       @video_title = video.to_s
     end
+
+    def scrub
+      @player.scrub
+    end
   end
 end
