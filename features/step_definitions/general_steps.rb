@@ -1,5 +1,5 @@
 
-When /(?:[^ ]) run airstream/ do
+When /(?:[^ ]) execute airstream/ do
   step 'I run `bundle exec ruby -Ilib bin/airstream`'
 end
 
