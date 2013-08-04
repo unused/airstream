@@ -16,5 +16,6 @@ group :test do
   gem 'rake'
   gem 'minitest'
   gem 'simplecov', :require => false
+  gem 'oj'
 end
 

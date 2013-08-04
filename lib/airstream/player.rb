@@ -19,7 +19,7 @@ module Airstream
 
     def current_file=(file)
       # OPTIMIZE check if file exists (local, remote)
-      @device.send file
+      @device.send(file)
     end
     private :current_file=
 

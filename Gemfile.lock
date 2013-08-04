@@ -10,6 +10,7 @@ GEM
     multi_json (1.7.8)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9)
+    oj (2.1.4)
     rack (1.5.2)
     rake (10.1.0)
     rake-notes (0.0.1)
@@ -27,6 +28,7 @@ PLATFORMS
 DEPENDENCIES
   airplay
   minitest
+  oj
   rack
   rake
   rake-notes

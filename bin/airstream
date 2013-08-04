@@ -9,7 +9,7 @@ def self.exit(status)
 end
 
 options = {
-  reciever: '192.168.1.8',
+  reciever: '192.168.0.123',
   quiet: false,
   verbose: false,
   use_local_http: true
@@ -55,9 +55,9 @@ Basic options: (configure default in ~/.airstreamrc)
     options[:verbose] = verbose
   end
 
-  # opts.on("--enable-use-httpd",
-  #  "use httpd to offer local files") do |use_httpd|
-  #   options[:use_local_httpd] = true
+  # opts.on("--disable-use-httpd",
+  #  "do not create httpd to offer local files") do |disable_httpd|
+  #   options[:disable_local_httpd] = true
   # end
 
   opts.on("-v", "--version",
@@ -86,14 +86,16 @@ begin
   io = Airstream::Io.new
   io.quiet = options[:quiet]
   io.verbose = options[:verbose]
-  device = Airstream::Device.new(options[:reciever], playlist)
+  device = Airstream::Device.new options[:reciever]
+  playlist.map! { |file| Airstream::Video.new(file) }
+  player = Airstream::Player.new device, playlist
 
   io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
   Airstream::Io.hide_input
   begin
     sleep UPDATE_TIMEOUT
     io.catch_input
-    device.update io
+    player.update io
   end until io.quit? || device.finished?
 
 rescue Airplay::Protocol::InvalidMediaError
