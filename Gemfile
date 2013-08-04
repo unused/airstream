@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem 'rake'
+
 gem 'airplay'
 gem 'ruby-progressbar'
 

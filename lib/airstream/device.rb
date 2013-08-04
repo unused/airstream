@@ -17,5 +17,6 @@ module Airstream
       @player = @reciever.send_video(video.url)
       @video_title = File.basename(video_file, File.extname(video_file))
     end
+      !! (@current_file_index == @video_files.count-1) && (video_duration <= elapsed_time)
   end
 end

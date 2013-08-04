@@ -4,8 +4,9 @@ require 'rake/notes/rake_task'
 
 task :default => [:test]
 
-spec = eval(File.read('airstream.gemspec'))
+task :default => 'test'
 
+spec = eval(File.read('airstream.gemspec'))
 Gem::PackageTask.new(spec) do |pkg|
 end
 

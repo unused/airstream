@@ -15,12 +15,12 @@ Gem::Specification.new do |s|
 bin/airstream
 bin/airimg
 lib/airstream.rb
-lib/airstream/version.rb
+lib/airstream/device.rb
 lib/airstream/io.rb
 lib/airstream/network.rb
 lib/airstream/node.rb
+lib/airstream/version.rb
 lib/airstream/video.rb
-lib/airstream/server.rb
 )
   s.require_paths << 'lib'
   s.executables = ["airstream", "airimg"]
