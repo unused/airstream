@@ -17,5 +17,6 @@ group :test do
   gem 'minitest'
   gem 'simplecov', :require => false
   gem 'oj'
+  gem 'aruba'
 end
 
