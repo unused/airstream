@@ -18,9 +18,3 @@ group :test do
   gem 'simplecov', :require => false
 end
 
-group :test, :development do
-  gem 'pry'
-  gem 'pry-rescue'
-  gem 'pry-stack_explorer'
-end
-
