@@ -1,5 +1,6 @@
 language: ruby
 before_install:
+  - sudo apt-get update
   - sudo apt-get install libavahi-compat-libdnssd-dev
 bundler_args: --without development
 rvm:
