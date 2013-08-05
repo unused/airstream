@@ -9,11 +9,13 @@ module Airstream
       @reciever = reciever
     end
 
-    def send(file)
-      case file.class
-      when Video then self.video = file
-      # TODO when Image then self.image = file
-      # TODO else raise "Unkown file type send to device"
+    def file=(file)
+      if file.class == Video
+        self.video = file
+      # when
+        # TODO Image then self.image = file
+      else
+        raise "Unkown file type send to device"
       end
     end
 

@@ -12,7 +12,7 @@ options = {
   reciever: '192.168.0.123',
   quiet: false,
   verbose: false,
-  use_local_http: true
+  # disable_local_http: true
 }
 
 CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
@@ -86,7 +86,8 @@ begin
   io = Airstream::Io.new
   io.quiet = options[:quiet]
   io.verbose = options[:verbose]
-  device = Airstream::Device.new options[:reciever]
+  node = Airstream::Node.new options[:reciever]
+  device = Airstream::Device.new node
   playlist.map! { |file| Airstream::Video.new(file) }
   player = Airstream::Player.new device, playlist
 
@@ -96,7 +97,7 @@ begin
     sleep UPDATE_TIMEOUT
     io.catch_input
     player.update io
-  end until io.quit? || device.finished?
+  end until io.quit? || player.finished?
 
 rescue Airplay::Protocol::InvalidMediaError
   STDERR.puts
