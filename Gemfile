@@ -15,7 +15,7 @@ end
 group :test do
   gem 'rake'
   gem 'minitest'
-  gem 'simplecov', :require => false
+  gem 'coveralls', require: false
   gem 'oj'
   gem 'aruba'
 end

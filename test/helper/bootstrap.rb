@@ -1,7 +1,5 @@
-require 'simplecov'
-SimpleCov.start do
-  add_filter 'test'
-end
+require 'coveralls'
+Coveralls.wear!
 
 require File.expand_path('../../lib/airstream.rb', File.dirname(__FILE__))
 
