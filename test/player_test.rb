@@ -24,7 +24,7 @@ describe Airstream::Player do
   describe "when video files are given" do
     it "should start playing" do
       files = [Airstream::Video.new("http://example.com/video.mp4")]
-      @device.expect(:send, true, [files[0]])
+      @device.expect(:file=, true, [files[0]])
       player = Airstream::Player.new(@device, files)
       @device.verify
     end
@@ -36,8 +36,8 @@ describe Airstream::Player do
         Airstream::Video.new("http://example.com/first.mp4"),
         Airstream::Video.new("http://example.com/second.mp4")
       ]
-      @device.expect(:send, true, [files[0]])
-      @device.expect(:send, true, [files[1]])
+      @device.expect(:file=, true, [files[0]])
+      @device.expect(:file=, true, [files[1]])
       player = Airstream::Player.new(@device, files)
       player.next
       @device.verify
@@ -47,7 +47,7 @@ describe Airstream::Player do
   describe "when next is called and last file is given" do
     it "should be finished" do
       files = [Airstream::Video.new("http://example.com/first.mp4")]
-      @device.expect(:send, true, [files[0]])
+      @device.expect(:file=, true, [files[0]])
       player = Airstream::Player.new(@device, files)
       player.next
       @device.verify ; player.finished?.must_equal true
@@ -60,9 +60,9 @@ describe Airstream::Player do
         Airstream::Video.new("http://example.com/first.mp4"),
         Airstream::Video.new("http://example.com/second.mp4")
       ]
-      @device.expect(:send, true, [files[0]])
-      @device.expect(:send, true, [files[1]])
-      @device.expect(:send, true, [files[0]])
+      @device.expect(:file=, true, [files[0]])
+      @device.expect(:file=, true, [files[1]])
+      @device.expect(:file=, true, [files[0]])
       player = Airstream::Player.new(@device, files)
       player.next
       player.prev
@@ -73,7 +73,7 @@ describe Airstream::Player do
   describe "when prev is called on first file" do
     it "should start from beginning" do
       files = [Airstream::Video.new("http://example.com/first.mp4")]
-      @device.expect(:send, true, [files[0]])
+      @device.expect(:file=, true, [files[0]])
       @device.expect(:scrub, {duration: 25})
       @device.expect(:scrub, true, [0])
       player = Airstream::Player.new(@device, files)
@@ -82,10 +82,10 @@ describe Airstream::Player do
     end
   end
 
-  describe "when a file is send to the device" do
+  describe "when a file is file= to the device" do
     it "the player should be loading" do
       files = [Airstream::Video.new("http://example.com/first.mp4")]
-      @device.expect(:send, true, [files[0]])
+      @device.expect(:file=, true, [files[0]])
       @device.expect(:scrub, {position: 0})
       @device.expect(:scrub, {position: 1})
       @device.expect(:scrub, {position: 45})
@@ -99,7 +99,7 @@ describe Airstream::Player do
 
   # OPTIMIZE find better way to handle IO Mock
   describe "when the player is paused" do
-    it "should either send pause or resume" do
+    it "should either file= pause or resume" do
       player = Airstream::Player.new(@device, [])
       io = MiniTest::Mock.new
       5.times do
