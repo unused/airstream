@@ -4,6 +4,9 @@ A command line tool for sending videos and images to airplay-compatible devices
 (like AppleTV).
 
 [![Build Status](https://travis-ci.org/unused/airstream.png?branch=master)](https://travis-ci.org/unused/airstream)
+[![Code Climate](https://codeclimate.com/github/unused/airstream.png)](https://codeclimate.com/github/unused/airstream)
+[![Coverage Status](https://coveralls.io/repos/unused/airstream/badge.png?branch=master)](https://coveralls.io/r/unused/airstream?branch=master)
+[![Dependency Status](https://gemnasium.com/unused/airstream.png)](https://gemnasium.com/unused/airstream)
 
 The airplay protocol can basically play videos in mpeg-4 (mp4, mov, ts, m4v)
 format that are accessible via http. Thus for sending a local file a webserver
