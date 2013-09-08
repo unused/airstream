@@ -74,11 +74,11 @@ module Airstream
     end
 
     def elapsed_time
-      @device.scrub[:position]
+      @device.position
     end
 
     def duration
-      @device.scrub[:duration]
+      @device.duration
     end
   end
 end

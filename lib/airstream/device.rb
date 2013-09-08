@@ -31,5 +31,13 @@ module Airstream
     def scrub
       @player.scrub
     end
+
+    def duration
+      self.scrub["duration"]
+    end
+
+    def position
+      self.scrub["position"]
+    end
   end
 end
