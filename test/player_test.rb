@@ -74,7 +74,7 @@ describe Airstream::Player do
     it "should start from beginning" do
       files = [Airstream::Video.new("http://example.com/first.mp4")]
       @device.expect(:file=, true, [files[0]])
-      @device.expect(:scrub, {duration: 25})
+      @device.expect(:duration, 25)
       @device.expect(:scrub, true, [0])
       player = Airstream::Player.new(@device, files)
       player.prev
@@ -86,9 +86,9 @@ describe Airstream::Player do
     it "the player should be loading" do
       files = [Airstream::Video.new("http://example.com/first.mp4")]
       @device.expect(:file=, true, [files[0]])
-      @device.expect(:scrub, {position: 0})
-      @device.expect(:scrub, {position: 1})
-      @device.expect(:scrub, {position: 45})
+      @device.expect(:position, 0)
+      @device.expect(:position, 1)
+      @device.expect(:position, 45)
       player = Airstream::Player.new(@device, files)
       player.loading?.must_equal true
       player.loading?.must_equal false
@@ -106,8 +106,8 @@ describe Airstream::Player do
         [:quit?, :skip?, :prev?, :fwd?, :back?].each do |cmd|
           io.expect(cmd, false)
         end
-        @device.expect(:scrub, {duration: 90})
-        @device.expect(:scrub, {position: 1})
+        @device.expect(:duration, 90)
+        @device.expect(:position, 1)
         io.expect(:pause?, true)
         @device.expect(:pause, true)
         player.update io
@@ -115,8 +115,8 @@ describe Airstream::Player do
           io.expect(cmd, false)
         end
         io.expect(:pause?, true)
-        @device.expect(:scrub, {duration: 90})
-        @device.expect(:scrub, {position: 1})
+        @device.expect(:duration, 90)
+        @device.expect(:position, 1)
         @device.expect(:resume, true)
         player.update io
       end
