@@ -91,6 +91,12 @@ begin
   playlist.map! { |file| Airstream::Video.new(file) }
   player = Airstream::Player.new device, playlist
 
+  io.puts "loading"
+  while player.loading?
+    io.print "."
+    sleep 0.8
+  end
+
   io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
   Airstream::Io.hide_input
   begin

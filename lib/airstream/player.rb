@@ -66,7 +66,7 @@ module Airstream
     end
 
     def finished?
-      @finished || true
+      @finished || false
     end
 
     def loading?
