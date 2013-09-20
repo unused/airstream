@@ -99,11 +99,16 @@ begin
 
   io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
   Airstream::Io.hide_input
-  begin
+  pbar = ProgressBar.create({ format: '%t |%b%i| %p%%', total: player.duration })
+  begin # reconsider playing...
     sleep UPDATE_TIMEOUT
+    formatted_time = Time.at(player.elapsed_time).gmtime.strftime('%R:%S')
+    pbar.title = "#{formatted_time}"
+    pbar.progress = player.elapsed_time
     io.catch_input
     player.update io
   end until io.quit? || player.finished?
+  pbar.finish
 
 rescue Airplay::Protocol::InvalidMediaError
   STDERR.puts
