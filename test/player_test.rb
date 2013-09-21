@@ -66,7 +66,7 @@ describe Airstream::Player do
       player = Airstream::Player.new(@device, files)
       player.next
       player.prev
-      @device.verify ; player.finished?.must_equal true
+      @device.verify ; player.finished?.must_equal false
     end
   end
 
