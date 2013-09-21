@@ -5,7 +5,11 @@ module Airstream
 
     def initialize(device, files)
       @device, @files = device, files
-      play unless @files.empty?
+      unless @files.empty?
+        play
+      else
+        @finished = true
+      end
     end
 
     def play(index=0)
