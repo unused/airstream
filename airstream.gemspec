@@ -1,5 +1,5 @@
 $LOAD_PATH.push File.expand_path("../lib", __FILE__)
-require 'airstream'
+require 'airstream/version'
 
 Gem::Specification.new do |s|
   s.name = "airstream"
@@ -25,9 +25,12 @@ lib/airstream/video.rb
 )
   s.require_paths << 'lib'
   s.executables = ["airstream", "airimg"]
-  s.add_dependency('airplay')
-  s.add_dependency('ruby-progressbar')
-  s.add_dependency('rack')
-  s.add_dependency('webrick')
-  s.add_development_dependency('rake')
+
+
+  s.add_dependency 'airplay', '~> 0.2.9'
+  s.add_dependency 'ruby-progressbar', '~> 1.1.1'
+  s.add_dependency 'rack', '~> 1.5.2'
+  s.add_dependency 'webrick', '~> 1.3.1'
+
+  s.add_development_dependency 'rake', '~> 10.1.0'
 end
