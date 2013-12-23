@@ -28,6 +28,14 @@ module Airstream
       @video_title = video.to_s
     end
 
+    def pause
+      @player.pause
+    end
+
+    def resume
+      @player.resume
+    end
+
     def scrub
       @player.scrub
     end
