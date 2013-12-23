@@ -1,3 +1,12 @@
+PATH
+  remote: .
+  specs:
+    airstream (0.4.3)
+      airplay (~> 0.2.9)
+      rack (~> 1.5.2)
+      ruby-progressbar (~> 1.1.1)
+      webrick (~> 1.3.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,13 +72,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airplay (~> 0.2.9)
+  airstream!
   aruba
   coveralls
   minitest
   oj
-  rack (~> 1.5.2)
   rake (~> 10.1.0)
   rake-notes
-  ruby-progressbar (~> 1.1.1)
-  webrick (~> 1.3.1)
