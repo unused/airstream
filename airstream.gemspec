@@ -19,6 +19,7 @@ lib/airstream/device.rb
 lib/airstream/io.rb
 lib/airstream/network.rb
 lib/airstream/node.rb
+lib/airstream/player.rb
 lib/airstream/version.rb
 lib/airstream/video.rb
 )
