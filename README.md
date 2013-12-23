@@ -17,6 +17,14 @@ Local or remote images can be sent directly to an aiplay-device.
 Playing audio or offering a stream to an airplay device is not yet implemented
 but is planned to. Do not hestitate to send me any ideas or bug informations.
 
+## Installation
+
+```
+gem install airstream
+```
+
+See **Troubleshooting** below, if you experience any problems while installing.
+
 ## Basic Usage
 
 Use the output argument to specify the ip-adress of the remote device. Remote
@@ -56,6 +64,57 @@ q ... quit
 , ... -30 seconds
 space ... pause/resume
 ```
+
+
+## Troubleshooting
+
+
+### Missing ruby development libraries
+
+**Error**
+
+```
+ERROR:  Error installing airstream:
+	ERROR: Failed to build gem native extension.
+
+        /usr/bin/ruby1.9.1 extconf.rb
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
+	from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
+	from extconf.rb:1:in `<main>'
+```
+
+**Solution**
+
+Install ruby development packages:
+
+For Ubuntu/Debian:
+
+```
+sudo apt-get install ruby-dev
+```
+
+
+### Missing dnssd headers
+
+**Error**
+
+```
+ERROR:  Error installing airstream:
+	ERROR: Failed to build gem native extension.
+
+        /usr/bin/ruby1.9.1 extconf.rb
+checking for dns_sd.h... no
+unable to find dnssd header
+```
+
+**Solution**
+
+For Ubuntu/Debian:
+
+```
+sudo apt-get install libavahi-compat-libdnssd-dev
+```
+
 
 ## History
 
