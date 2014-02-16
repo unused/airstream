@@ -17,6 +17,11 @@ module Airstream
       else
         raise "Unkown file type send to device"
       end
+      block_while_loading
+    end
+
+    def block_while_loading
+      sleep 0.2 until position != 0
     end
 
     def image=(image_file)
@@ -24,7 +29,6 @@ module Airstream
     end
 
     def video=(video)
-      @player = @reciever.send_video video.url
       @player = @reciever.send_video video.url
       @video_title = video.to_s
     end

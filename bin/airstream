@@ -88,14 +88,9 @@ begin
   io.verbose = options[:verbose]
   node = Airstream::Node.new options[:reciever]
   device = Airstream::Device.new node
+  io.puts "loading can take a few seconds..."
   playlist.map! { |file| Airstream::Video.new(file) }
   player = Airstream::Player.new device, playlist
-
-  io.puts "loading"
-  while player.loading?
-    io.print "."
-    sleep 0.8
-  end
 
   io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
   Airstream::Io.hide_input
@@ -103,7 +98,7 @@ begin
   begin # reconsider playing...
     sleep UPDATE_TIMEOUT
     formatted_time = Time.at(player.elapsed_time).gmtime.strftime('%R:%S')
-    pbar.title = "#{formatted_time}"
+    pbar.title = "#{player.current_title} #{formatted_time}"
     pbar.progress = player.elapsed_time
     io.catch_input
     player.update io

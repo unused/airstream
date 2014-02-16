@@ -22,7 +22,6 @@ module Airstream
     end
 
     def current_file=(file)
-      # OPTIMIZE check if file exists (local, remote)
       @device.file = file
     end
     private :current_file=
@@ -67,6 +66,10 @@ module Airstream
         @file_index -= 1
         self.current_file = @files[@file_index]
       end
+    end
+
+    def current_title
+      @files[@file_index]
     end
 
     def finished?
