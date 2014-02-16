@@ -3,6 +3,7 @@
 A command line tool for sending videos and images to airplay-compatible devices
 (like AppleTV).
 
+[![Gem Version](https://badge.fury.io/rb/airstream.png)](http://badge.fury.io/rb/airstream)
 [![Build Status](https://travis-ci.org/unused/airstream.png?branch=master)](https://travis-ci.org/unused/airstream)
 [![Code Climate](https://codeclimate.com/github/unused/airstream.png)](https://codeclimate.com/github/unused/airstream)
 [![Coverage Status](https://coveralls.io/repos/unused/airstream/badge.png?branch=master)](https://coveralls.io/r/unused/airstream?branch=master)
