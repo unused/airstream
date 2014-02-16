@@ -25,6 +25,7 @@ module Airstream
 
     def video=(video)
       @player = @reciever.send_video video.url
+      @player = @reciever.send_video video.url
       @video_title = video.to_s
     end
 
@@ -36,8 +37,8 @@ module Airstream
       @player.resume
     end
 
-    def scrub
-      @player.scrub
+    def scrub(seconds=nil)
+      @player.scrub seconds
     end
 
     def duration
