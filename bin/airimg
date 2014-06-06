@@ -9,7 +9,10 @@ def self.exit(status)
 end
 
 options = {
-  reciever: '192.168.1.8',
+  reciever: '192.168.0.123',
+  quiet: false,
+  verbose: false,
+  # disable_local_http: true
   interval: 3
 }
 
@@ -63,7 +66,8 @@ begin
     exit 68
   end
 
-  device = Airstream::Device.new(options[:reciever])
+  node = Airstream::Node.new options[:reciever]
+  device = Airstream::Device.new node
 
   io = Airstream::Io.new
   io.quiet = options[:quiet]
