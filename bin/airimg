@@ -9,7 +9,7 @@ def self.exit(status)
 end
 
 options = {
-  reciever: '192.168.0.123',
+  receiver: '192.168.0.123',
   quiet: false,
   verbose: false,
   # disable_local_http: true
@@ -35,9 +35,9 @@ Usage: #{executable_name} [options] [url|path/]filename
 
 Basic options: (configure default in ~/.airstreamrc)
 "
-  opts.on("-o RECIEVER",
-   "the airplay-device ip-address or domain") do |reciever|
-    options[:reciever] = reciever
+  opts.on("-o RECEIVER",
+   "the airplay-device ip-address or domain") do |receiver|
+    options[:receiver] = receiver
   end
 
   opts.on("-n SECONDS", "--interval SECONDS",
@@ -61,12 +61,12 @@ end
 begin
   option_parser.parse!
 
-  unless options[:reciever]
+  unless options[:receiver]
     STDERR.puts "No host given"
     exit 68
   end
 
-  node = Airstream::Node.new options[:reciever]
+  node = Airstream::Node.new options[:receiver]
   device = Airstream::Device.new node
 
   io = Airstream::Io.new
