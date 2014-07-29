@@ -13,10 +13,10 @@ The airplay protocol can basically play videos in mpeg-4 (mp4, mov, ts, m4v)
 format that are accessible via http. Thus for sending a local file a webserver
 will be created, see below.
 
-Local or remote images can be sent directly to an aiplay-device.
+Local or remote images can be sent directly to an airplay-device.
 
 Playing audio or offering a stream to an airplay device is not yet implemented
-but is planned to. Do not hestitate to send me any ideas or bug informations.
+but is planned to. Do not hesitate to send me any ideas or bug informations.
 
 ## Installation
 
@@ -28,7 +28,7 @@ See **Troubleshooting** below, if you experience any problems while installing.
 
 ## Basic Usage
 
-Use the output argument to specify the ip-adress of the remote device. Remote
+Use the output argument to specify the ip-address of the remote device. Remote
 files will be played directly, local files are hosted with a small webserver
 (webrick). Check your firewall settings, port 7000 is used to host the file.
 

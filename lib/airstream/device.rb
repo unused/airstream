@@ -5,8 +5,8 @@ module Airstream
 
     attr_reader :player, :video_title
 
-    def initialize(reciever)
-      @reciever = reciever
+    def initialize(receiver)
+      @receiver = receiver
     end
 
     def file=(file)
@@ -15,7 +15,7 @@ module Airstream
       # when
         # TODO Image then self.image = file
       else
-        raise "Unkown file type send to device"
+        raise "Unknown file type send to device"
       end
       block_while_loading
     end
@@ -25,11 +25,11 @@ module Airstream
     end
 
     def image=(image_file)
-      @reciever.send_image image_file
+      @receiver.send_image image_file
     end
 
     def video=(video)
-      @player = @reciever.send_video video.url
+      @player = @receiver.send_video video.url
       @video_title = video.to_s
     end
 
