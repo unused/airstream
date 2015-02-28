@@ -15,7 +15,7 @@ options = {
   # disable_local_http: true
 }
 
-CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
+CONFIG_FILE = File.join(ENV['HOME'] || '', '.airstreamrc')
 
 EXIT_OK = 0
 EXIT_ERROR = 1
