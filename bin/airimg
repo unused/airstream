@@ -20,7 +20,7 @@ EXIT_OK = 0
 EXIT_ERROR = 1
 EXIT_NO_HOST = 68
 
-CONFIG_FILE = File.join(ENV['HOME'], '.airstreamrc')
+CONFIG_FILE = File.join(ENV['HOME'] || '', '.airstreamrc')
 
 if File.exists? CONFIG_FILE
   options_config = YAML.load_file(CONFIG_FILE)
