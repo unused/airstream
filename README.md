@@ -119,6 +119,8 @@ sudo apt-get install libavahi-compat-libdnssd-dev
 
 ## History
 
+- current
+  - fix some dependencies
 - v0.4.0
   - Finally added tests
   - Improved stability

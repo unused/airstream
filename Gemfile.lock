@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    airstream (0.4.7)
+    airstream (0.4.8)
       airplay (~> 0.2.9)
       rack (~> 1.5.2)
       ruby-progressbar (~> 1.1.1)
