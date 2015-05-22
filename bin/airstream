@@ -9,6 +9,21 @@ def self.exit(status)
   super status
 end
 
+def parse_time(time)
+  res = time.match("([0-9]*)m(?:i?n?u?t?e?s?)?(?: ?([0-9]*)s(?:e?c?o?n?d?s?)?)?")
+  if res.nil?
+    res = time.match("([0-9]*):([0-9]*)")
+  end
+  unless res.nil?
+    seconds = res[1].to_i * 60
+    unless res[2].nil?
+      seconds += res[2].to_i
+    end
+    return seconds
+  end
+  time.to_i
+end
+
 $options = options = {
   receiver: nil,
   quiet: false,
@@ -48,8 +63,8 @@ Basic options: (configure default in ~/.airstreamrc)
   end
 
   opts.on("-t time",
-    "jump to a specific time in seconds") do |time|
-    options[:time] = time
+    "jump to a specific time in seconds or in minutes (i.e. 10m 30s)") do |time|
+    options[:time] = parse_time(time)
   end
 
   opts.on("-q","--quiet",
@@ -102,7 +117,7 @@ def stream(receiver)
     playlist.map! { |file| Airstream::Video.new(file) }
     player = Airstream::Player.new device, playlist
     if options[:time]
-      player.seek(options[:time].to_i)
+      player.seek(options[:time])
     end
 
     io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
