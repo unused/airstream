@@ -151,27 +151,28 @@ def stream(receiver)
 end
 
 unless options[:receiver]
-  wait = 10
+  wait = 0
+  apple_tv_found = false
 
   DNSSD.browse '_airplay._tcp' do |reply|
-    resolve(reply.name)
-  end
-
-  def resolve(name)
-    DNSSD.resolve name, '_airplay._tcp', 'local' do |reply|
+    DNSSD.resolve reply.name, '_airplay._tcp', 'local' do |reply|
       if reply.text_record["model"].match(/AppleTV/)
         DNSSD::Service.new.getaddrinfo(reply.target, 1) do |addr|
           puts "Apple TV: #{reply.target} (#{addr.address})"
-          wait = 0
+          apple_tv_found = true
           stream(addr.address)
         end
       end
     end
   end
-  # STDERR.puts "No host given"
-  # exit EXIT_NO_HOST
-  while wait > 0 do
+
+  while true do
     sleep(1)
+    wait += 1
+    if wait > 5 and !apple_tv_found
+      STDERR.puts "Couldn't find Apple TV"
+      exit EXIT_NO_HOST
+    end
   end
 else
   stream(options[:receiver])
