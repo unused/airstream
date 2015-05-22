@@ -10,7 +10,7 @@ def self.exit(status)
 end
 
 def parse_time(time)
-  res = time.match("([0-9]*)m(?:i?n?u?t?e?s?)?(?: ?([0-9]*)s(?:e?c?o?n?d?s?)?)?")
+  res = time.match("([0-9]*)m(?:i?n?u?t?e?s?)?(?:([0-9]*)s(?:e?c?o?n?d?s?)?)?")
   if res.nil?
     res = time.match("([0-9]*):([0-9]*)")
   end
@@ -63,7 +63,7 @@ Basic options: (configure default in ~/.airstreamrc)
   end
 
   opts.on("-t time",
-    "jump to a specific time in seconds or in minutes (i.e. 10m 30s)") do |time|
+    "jump to a specific time in seconds or in minutes (i.e. 10m30s)") do |time|
     options[:time] = parse_time(time)
   end
 
