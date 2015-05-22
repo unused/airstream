@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'airstream'
+require 'dnssd'
 
 def self.exit(status)
   Airstream::Io.show_input
@@ -8,10 +9,26 @@ def self.exit(status)
   super status
 end
 
-options = {
-  reciever: '192.168.0.123',
+def parse_time(time)
+  res = time.match("([0-9]*)m(?:i?n?u?t?e?s?)?(?:([0-9]*)s(?:e?c?o?n?d?s?)?)?")
+  if res.nil?
+    res = time.match("([0-9]*):([0-9]*)")
+  end
+  unless res.nil?
+    seconds = res[1].to_i * 60
+    unless res[2].nil?
+      seconds += res[2].to_i
+    end
+    return seconds
+  end
+  time.to_i
+end
+
+$options = options = {
+  receiver: nil,
   quiet: false,
   verbose: false,
+  time: nil,
   # disable_local_http: true
 }
 
@@ -40,9 +57,14 @@ Usage: #{executable_name} [options] [url|path/]filename
 Basic options: (configure default in ~/.airstreamrc)
 "
 
-  opts.on("-o RECIEVER",
-   "the airplay-device ip-address or domain") do |reciever|
-    options[:reciever] = reciever
+  opts.on("-o receiver",
+   "the airplay-device ip-address or domain") do |receiver|
+    options[:receiver] = receiver
+  end
+
+  opts.on("-t time",
+    "jump to a specific time in seconds or in minutes (i.e. 10m30s)") do |time|
+    options[:time] = parse_time(time)
   end
 
   opts.on("-q","--quiet",
@@ -72,58 +94,90 @@ if ARGV.empty?
   STDERR.puts option_parser
   exit EXIT_ERROR
 end
-playlist = ARGV
+
 
 begin
-
   option_parser.parse!
-
-  unless options[:reciever]
-    STDERR.puts "No host given"
-    exit EXIT_NO_HOST
-  end
-
-  io = Airstream::Io.new
-  io.quiet = options[:quiet]
-  io.verbose = options[:verbose]
-  node = Airstream::Node.new options[:reciever]
-  device = Airstream::Device.new node
-  io.puts "loading can take a few seconds..."
-  playlist.map! { |file| Airstream::Video.new(file) }
-  player = Airstream::Player.new device, playlist
-
-  io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
-  Airstream::Io.hide_input
-  pbar = ProgressBar.create({ format: '%t |%b%i| %p%%', total: player.duration })
-  begin # reconsider playing...
-    sleep UPDATE_TIMEOUT
-    formatted_time = Time.at(player.elapsed_time).gmtime.strftime('%R:%S')
-    pbar.title = "#{player.current_title} #{formatted_time}"
-    pbar.progress = player.elapsed_time
-    io.catch_input
-    player.update io
-  end until io.quit? || player.finished?
-  pbar.finish
-
-rescue Airplay::Protocol::InvalidMediaError
-  STDERR.puts
-  STDERR.puts "invalid media file"
-  exit EXIT_ERROR
-# rescue NoMethodError # @FIX webrick raises no method error
-#   STDERR.puts
-#   STDERR.puts "file host shutdown"
-#   exit EXIT_OK
-rescue Interrupt
-  STDERR.puts
-  STDERR.puts "exiting"
-  exit EXIT_ERROR
 rescue OptionParser::InvalidArgument => ex
   STDERR.puts ex.message
   STDERR.puts option_parser
   exit EXIT_ERROR
-ensure
-  Airstream::Io.show_input
+end
+
+def stream(receiver)
+  begin
+    options = $options
+    playlist = ARGV
+    io = Airstream::Io.new
+    io.quiet = options[:quiet]
+    io.verbose = options[:verbose]
+    node = Airstream::Node.new receiver
+    device = Airstream::Device.new node
+    io.puts "loading can take a few seconds..."
+    playlist.map! { |file| Airstream::Video.new(file) }
+    player = Airstream::Player.new device, playlist
+    if options[:time]
+      player.seek(options[:time])
+    end
+
+    io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
+    Airstream::Io.hide_input
+    pbar = ProgressBar.create({ format: '%t |%b%i| %p%%', total: player.duration })
+    begin # reconsider playing...
+      sleep UPDATE_TIMEOUT
+      formatted_time = Time.at(player.elapsed_time).gmtime.strftime('%R:%S')
+      current_title = player.current_title.to_s
+      title = current_title[0..[30, current_title.length].min]
+      pbar.title = "#{title} #{formatted_time}"
+      pbar.progress = player.elapsed_time
+      io.catch_input
+      player.update io
+    end until io.quit? || player.finished?
+    pbar.finish
+
+  rescue Airplay::Protocol::InvalidMediaError
+    STDERR.puts
+    STDERR.puts "invalid media file"
+    exit EXIT_ERROR
+  # rescue NoMethodError # @FIX webrick raises no method error
+  #   STDERR.puts
+  #   STDERR.puts "file host shutdown"
+  #   exit EXIT_OK
+  rescue Interrupt
+    STDERR.puts
+    STDERR.puts "exiting"
+    exit EXIT_ERROR
+  ensure
+    Airstream::Io.show_input
+  end
+end
+
+unless options[:receiver]
+  wait = 0
+  apple_tv_found = false
+
+  DNSSD.browse '_airplay._tcp' do |reply|
+    DNSSD.resolve reply.name, '_airplay._tcp', 'local' do |reply|
+      if reply.text_record["model"].match(/AppleTV/)
+        DNSSD::Service.new.getaddrinfo(reply.target, 1) do |addr|
+          puts "Apple TV: #{reply.target} (#{addr.address})"
+          apple_tv_found = true
+          stream(addr.address)
+        end
+      end
+    end
+  end
+
+  while true do
+    sleep(1)
+    wait += 1
+    if wait > 5 and !apple_tv_found
+      STDERR.puts "Couldn't find Apple TV"
+      exit EXIT_NO_HOST
+    end
+  end
+else
+  stream(options[:receiver])
 end
 
 exit EXIT_OK
-

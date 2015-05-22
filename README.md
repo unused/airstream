@@ -21,12 +21,20 @@ but is planned to. Do not hesitate to send me any ideas or bug informations.
 ## Installation
 
 ```
-gem install airstream
+gem install specific_install
+gem specific_install michaelvillar/airstream
+brew install youtube-dl
 ```
 
 See **Troubleshooting** below, if you experience any problems while installing.
 
 ## Basic Usage
+
+Airstream automatically find your Apple TV on your local network.
+It also can play remote files, even from Youtube, Vimeo and others (don't forget to install youtube-dl -- see above).
+```shell
+airstream http://youtube.com/watch?v=gCluaJe3lb4
+```
 
 Use the output argument to specify the ip-address of the remote device. Remote
 files will be played directly, local files are hosted with a small webserver

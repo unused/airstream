@@ -1,6 +1,7 @@
 
 require 'rack'
 require 'webrick'
+require 'open3'
 
 module Airstream
   class Video
@@ -8,7 +9,17 @@ module Airstream
     @@server = nil
 
     def initialize(video_file)
-      @filename = video_file
+      begin
+        stdin, stdout, stderr = Open3.popen3("youtube-dl -f best -g #{video_file}")
+        output = stdout.gets
+        if stderr.gets.nil? && !output.nil?
+          @filename = output
+        else
+          @filename = video_file
+        end
+      rescue Exception => e
+        @filename = video_file
+      end
     end
 
     def to_s
