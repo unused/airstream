@@ -126,7 +126,9 @@ def stream(receiver)
     begin # reconsider playing...
       sleep UPDATE_TIMEOUT
       formatted_time = Time.at(player.elapsed_time).gmtime.strftime('%R:%S')
-      pbar.title = "#{player.current_title} #{formatted_time}"
+      current_title = player.current_title.to_s
+      title = current_title[0..[30, current_title.length].min]
+      pbar.title = "#{title} #{formatted_time}"
       pbar.progress = player.elapsed_time
       io.catch_input
       player.update io
