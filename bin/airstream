@@ -13,6 +13,7 @@ $options = options = {
   receiver: nil,
   quiet: false,
   verbose: false,
+  time: nil,
   # disable_local_http: true
 }
 
@@ -44,6 +45,11 @@ Basic options: (configure default in ~/.airstreamrc)
   opts.on("-o receiver",
    "the airplay-device ip-address or domain") do |receiver|
     options[:receiver] = receiver
+  end
+
+  opts.on("-t time",
+    "jump to a specific time in seconds") do |time|
+    options[:time] = time
   end
 
   opts.on("-q","--quiet",
@@ -95,6 +101,9 @@ def stream(receiver)
     io.puts "loading can take a few seconds..."
     playlist.map! { |file| Airstream::Video.new(file) }
     player = Airstream::Player.new device, playlist
+    if options[:time]
+      player.seek(options[:time].to_i)
+    end
 
     io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
     Airstream::Io.hide_input
