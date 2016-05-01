@@ -94,12 +94,13 @@ begin
 
   io.puts "=> press ["+Airstream::Io::KEY_QUIT+"] to exit airstream"
   Airstream::Io.hide_input
-  pbar = ProgressBar.create({ format: '%t |%b%i| %p%%', total: player.duration })
+  total_duration = player.duration
+  pbar = ProgressBar.create({ format: '%t |%b%i| %p%%', total: total_duration })
   begin # reconsider playing...
     sleep UPDATE_TIMEOUT
     formatted_time = Time.at(player.elapsed_time).gmtime.strftime('%R:%S')
     pbar.title = "#{player.current_title} #{formatted_time}"
-    pbar.progress = player.elapsed_time
+    pbar.progress = [player.elapsed_time, total_duration].min
     io.catch_input
     player.update io
   end until io.quit? || player.finished?
