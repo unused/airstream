@@ -120,6 +120,7 @@ sudo apt-get install libavahi-compat-libdnssd-dev
 ## History
 
 - current
+  - fix progressbar fails on broken input
   - fix some dependencies
 - v0.4.0
   - Finally added tests
