@@ -116,6 +116,12 @@ For Ubuntu/Debian:
 sudo apt-get install libavahi-compat-libdnssd-dev
 ```
 
+For FreeBSD:
+
+```
+sudo pkg install avahi-libdns
+gem install airstream -- --with-dnssd-lib=/usr/local/lib/ --with-dnssd-include=/usr/local/include/avahi-compat-libdns_sd/
+```
 
 ## History
 
