@@ -6,3 +6,4 @@ bundler_args: --without development
 rvm:
   - 1.9.2
   - 2.0.0
+  - 2.2.2
