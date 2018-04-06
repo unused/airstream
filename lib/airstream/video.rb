@@ -1,6 +1,7 @@
 
 require 'rack'
 require 'webrick'
+require 'youtube-dl.rb'
 
 module Airstream
   class Video
@@ -8,7 +9,19 @@ module Airstream
     @@server = nil
 
     def initialize(video_file)
-      @filename = video_file
+      options = {
+        skip_download: true,
+        get_url: true,
+        format: :best,
+        continue: false,
+        color: false,
+        progress: false
+      }
+      begin
+          @filename = YoutubeDL::Runner.new(video_file, options).run
+      rescue  # optionally: `except Exception, ex:`
+          @filename = video_file
+      end
     end
 
     def to_s

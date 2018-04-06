@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gemspec
 
 gem 'rake'
+gem 'youtube-dl.rb'
 
 group :development do
   gem 'rake-notes'
