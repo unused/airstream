@@ -50,7 +50,7 @@ GEM
     multi_json (1.11.0)
     multi_test (0.1.2)
     net-http-digest_auth (1.4.1)
-    net-http-persistent (3.0.0)
+    net-http-persistent (2.9.4)
       connection_pool (~> 2.2)
     netrc (0.10.3)
     oj (2.12.1)
