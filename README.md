@@ -41,6 +41,11 @@ You can also use wildcards and handle files as usually...
 airstream /home/me/*.mp4 -o 192.168.1.8
 airstream /home/me/my-birthday-20{08,10,12}.mov -o 192.168.1.8
 ```
+Airstream automatically find your Apple TV on your local network. It also can play remote files, even from Youtube, Vimeo and others (don't forget to install youtube-dl).
+```shell
+airstream http://youtube.com/watch?v=gCluaJe3lb4
+```
+
 Use airimg to send images to the airplay device.
 ```shell
 airimg http://example.com/photo.png -o 192.168.1.8
