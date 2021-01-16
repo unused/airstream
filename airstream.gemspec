@@ -32,5 +32,5 @@ lib/airstream/video.rb
   s.add_dependency 'rack', '~> 1.5.2'
   s.add_dependency 'webrick', '~> 1.3.1'
 
-  s.add_development_dependency 'rake', '~> 10.1.0'
+  s.add_development_dependency 'rake', '~> 13.0.3'
 end

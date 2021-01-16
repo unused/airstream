@@ -50,7 +50,7 @@ GEM
     netrc (0.10.3)
     oj (2.12.1)
     rack (1.5.5)
-    rake (10.4.2)
+    rake (13.0.3)
     rake-notes (0.2.0)
       colored
       rake
