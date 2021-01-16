@@ -29,7 +29,7 @@ lib/airstream/video.rb
 
   s.add_dependency 'airplay', '~> 0.2.9'
   s.add_dependency 'ruby-progressbar', '~> 1.1.1'
-  s.add_dependency 'rack', '~> 1.5.2'
+  s.add_dependency 'rack', '>= 1.5.2', '< 2.3.0'
   s.add_dependency 'webrick', '~> 1.3.1'
 
   s.add_development_dependency 'rake', '~> 10.1.0'
