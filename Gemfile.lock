@@ -88,7 +88,7 @@ GEM
       middleware
       thor
       thread_safe
-    rack (2.2.3)
+    rack (2.2.3.1)
     rake (13.0.3)
     rake-notes (0.2.2)
       colored
