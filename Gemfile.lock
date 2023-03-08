@@ -3,7 +3,7 @@ PATH
   specs:
     airstream (0.4.10)
       airplay (~> 0.2.9)
-      rack (~> 2.2.3)
+      rack (>= 2.2.3, < 3.1.0)
       ruby-progressbar (~> 1.1.1)
       webrick (~> 1.6.1)
 
@@ -30,7 +30,7 @@ GEM
     childprocess (4.0.0)
     colored (1.2)
     concurrent-ruby (1.1.7)
-    connection_pool (2.2.3)
+    connection_pool (2.3.0)
     contracts (0.16.0)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
@@ -88,7 +88,7 @@ GEM
       middleware
       thor
       thread_safe
-    rack (2.2.3)
+    rack (3.0.4.2)
     rake (13.0.3)
     rake-notes (0.2.2)
       colored
