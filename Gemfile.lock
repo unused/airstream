@@ -10,12 +10,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.1.1)
+    activesupport (7.0.4.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     airplay (0.2.9)
       dnssd (~> 2.0)
       net-http-digest_auth (~> 1.2)
@@ -29,7 +28,7 @@ GEM
     builder (3.2.4)
     childprocess (4.0.0)
     colored (1.2)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.2.2)
     connection_pool (2.2.3)
     contracts (0.16.0)
     coveralls (0.8.23)
@@ -73,7 +72,7 @@ GEM
     dnssd (2.0.1)
     docile (1.3.5)
     ffi (1.14.2)
-    i18n (1.8.7)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     json (2.5.1)
     middleware (0.1.0)
@@ -112,10 +111,9 @@ GEM
     thread_safe (0.3.6)
     tins (1.28.0)
       sync
-    tzinfo (2.0.4)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     webrick (1.6.1)
-    zeitwerk (2.4.2)
 
 PLATFORMS
   ruby
